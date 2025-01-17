@@ -44,7 +44,7 @@ def init_reddit(access_token=None):
 def save_to_json(data, mode, query, time_filter="all", sort="relevance"):
     """保存数据到JSON文件，按日期和查询条件组织"""
     # 创建基础输出目录
-    base_dir = os.path.join(os.path.dirname(__file__), "..", "venv", "out")
+    base_dir = os.path.join(os.path.dirname(__file__), "..", "out")
     
     # 按年月日创建子目录
     date_dir = datetime.now().strftime('%Y%m%d')
@@ -195,14 +195,16 @@ def search_reddit():
             results.append(data)
             time.sleep(1)  # 减少延迟时间，避免前端等待太久
 
-        # 保存数据
-        filepath = save_to_json(results, mode, query, time_filter, sort)
+        # 只在有数据时才保存
+        filepath = None
+        if results:
+            filepath = save_to_json(results, mode, query, time_filter, sort)
         
         return jsonify({
             "success": True,
             "data": results,
             "total": len(results),
-            "filepath": filepath
+            "filepath": filepath or ""
         })
 
     except Exception as e:

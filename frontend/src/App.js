@@ -36,7 +36,7 @@ function App() {
 
   const renderSortOptions = () => {
     const { mode } = form.getFieldsValue();
-    if (mode === 'keyword') {
+    if (!mode || mode === 'keyword') {
       return (
         <>
           <Option value="relevance">相关度</Option>
@@ -50,6 +50,14 @@ function App() {
         <>
           <Option value="hot">热门</Option>
           <Option value="new">最新</Option>
+          <Option value="top">最佳</Option>
+        </>
+      );
+    } else if (mode === 'user') {
+      return (
+        <>
+          <Option value="new">最新</Option>
+          <Option value="hot">热门</Option>
           <Option value="top">最佳</Option>
         </>
       );
